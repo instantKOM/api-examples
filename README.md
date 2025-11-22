@@ -1,5 +1,11 @@
 # instantKOM API Examples
 
+<div align="center">
+
+![instantKOM Logo](https://start.instantkom.app//imgs/logo/ik_1024_no_sub_regtrade.png)
+
+</div>
+
 Ready-to-use code examples for the instantKOM API in multiple programming languages.
 
 [![API Documentation](https://img.shields.io/badge/API%20Docs-Swagger-orange)](https://api.instantkom.app/api-docs)
