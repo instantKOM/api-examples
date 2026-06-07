@@ -1,8 +1,11 @@
 /**
  * instantKOM API Example: Create and Send Broadcast
  *
- * This example demonstrates how to create a broadcast campaign
- * and send it to multiple recipients.
+ * Creates a broadcast campaign for all contacts in a channel (or a segment)
+ * and sends it immediately.
+ *
+ * Broadcasts target contacts already stored in instantKOM, not raw phone numbers.
+ * Use segmentId to restrict the audience to a specific contact segment.
  */
 
 require('dotenv').config();
@@ -17,16 +20,12 @@ async function createAndSendBroadcast() {
     const createResponse = await axios.post(
       `${BASE_URL}/v1/broadcasts`,
       {
-        channelId: 123, // Your channel ID
-        name: 'Summer Sale 2025',
+        channelId: 505, // Your channel ID
         message: 'Check out our amazing summer sale! 50% off on selected items.',
-        recipients: [
-          '+49151234567890',
-          '+49152345678901',
-          '+49153456789012',
-        ],
-        // Optional: Schedule for later
-        // scheduledAt: '2025-12-01T10:00:00Z',
+        // Optional: restrict to a contact segment
+        // segmentId: 123,
+        // Optional: schedule for future send (Unix timestamp in seconds)
+        // scheduledAt: 1735000000,
       },
       {
         headers: {
@@ -37,12 +36,11 @@ async function createAndSendBroadcast() {
     );
 
     console.log('Broadcast created successfully!');
-    console.log('Broadcast ID:', createResponse.data.data.id);
-    console.log('Status:', createResponse.data.data.status);
-    console.log('Recipients:', createResponse.data.data.recipients?.length || 0);
+    console.log('Broadcast ID:', createResponse.data.id);
+    console.log('Send status:', createResponse.data.sendStatus);
 
     // Step 2: Send broadcast
-    const broadcastId = createResponse.data.data.id;
+    const broadcastId = createResponse.data.id;
     const sendResponse = await axios.post(
       `${BASE_URL}/v1/broadcasts/${broadcastId}/send`,
       {},

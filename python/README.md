@@ -38,13 +38,9 @@ BASE_URL=https://api.instantkom.app
 
 | File | Description |
 |------|-------------|
-| `send_message.py` | Send a 1:1 message |
+| `send_message.py` | Send a 1:1 message (requires `recipientId`) |
 | `list_channels.py` | List all channels |
 | `create_broadcast.py` | Create and send a broadcast |
-| `list_contacts.py` | List contacts with pagination |
-| `create_tag.py` | Create and assign tags |
-| `upload_media.py` | Send images/videos/documents |
-| `webhook_server.py` | Flask webhook server |
 
 ## Quick Start
 

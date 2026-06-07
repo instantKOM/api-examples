@@ -1,8 +1,9 @@
 /**
  * instantKOM API Example: Send Message
  *
- * This example demonstrates how to send a 1:1 message
- * to a contact via WhatsApp, Telegram, or any other channel.
+ * Sends a 1:1 text message to a recipient by their internal ID.
+ * To find the recipient ID, use the contacts endpoint:
+ *   GET /v1/contacts?search=<phone_or_name>
  */
 
 require('dotenv').config();
@@ -16,9 +17,9 @@ async function sendMessage() {
     const response = await axios.post(
       `${BASE_URL}/v1/messages`,
       {
-        channelId: 123, // Your channel ID
-        to: '+49151234567890', // Recipient phone number
+        recipientId: 12345, // Internal instantKOM contact ID (not a phone number)
         message: 'Hello from instantKOM API!',
+        messageType: 'text',
       },
       {
         headers: {
@@ -29,7 +30,7 @@ async function sendMessage() {
     );
 
     console.log('Message sent successfully!');
-    console.log('Message ID:', response.data.data.id);
+    console.log('Message ID:', response.data.id);
     console.log(response.data);
   } catch (error) {
     if (error.response) {

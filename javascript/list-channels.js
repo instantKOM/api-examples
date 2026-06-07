@@ -28,15 +28,15 @@ async function listChannels(page = 1, limit = 10) {
     response.data.data.forEach(channel => {
       console.log(`ID: ${channel.id}`);
       console.log(`Name: ${channel.name}`);
-      console.log(`Type: ${channel.type}`);
-      console.log(`Status: ${channel.status ? 'Active' : 'Inactive'}`);
+      console.log(`Gateway: ${channel.gatewayType}`);
+      console.log(`Status: ${channel.status}`);
       console.log('-'.repeat(50));
     });
 
     // Pagination info
-    if (response.data.meta) {
-      console.log(`\nTotal: ${response.data.meta.total}`);
-      console.log(`Pages: ${response.data.meta.totalPages}`);
+    if (response.data.pagination) {
+      console.log(`\nTotal: ${response.data.pagination.total}`);
+      console.log(`Pages: ${response.data.pagination.totalPages}`);
     }
   } catch (error) {
     if (error.response) {

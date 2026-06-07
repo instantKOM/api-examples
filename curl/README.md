@@ -22,7 +22,7 @@ Create `config.sh`:
 #!/bin/bash
 
 # Your API Key
-export API_KEY="YOUR_API_KEY_HERE"
+export API_KEY=YOUR_API_KEY_HERE
 
 # API Base URL
 export BASE_URL="https://api.instantkom.app"
@@ -35,10 +35,8 @@ export CHANNEL_ID="123"
 
 | File | Description |
 |------|-------------|
-| `send-message.sh` | Send a 1:1 message |
+| `send-message.sh` | Send a 1:1 message (requires `recipientId`) |
 | `list-channels.sh` | List all channels |
-| `create-broadcast.sh` | Create and send a broadcast |
-| `list-contacts.sh` | List contacts with pagination |
 | `health-check.sh` | Check API health status |
 
 ## Quick Start
@@ -71,9 +69,9 @@ curl -X POST https://api.instantkom.app/v1/messages \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "channelId": 123,
-    "to": "+49151234567890",
-    "message": "Hello!"
+    "recipientId": 12345,
+    "message": "Hello!",
+    "messageType": "text"
   }'
 ```
 
@@ -90,8 +88,6 @@ curl -X POST https://api.instantkom.app/v1/broadcasts \
   -H "Content-Type: application/json" \
   -d '{
     "channelId": 123,
-    "name": "Test Campaign",
-    "message": "Hello everyone!",
-    "recipients": ["+49151...", "+49152..."]
+    "message": "Hello everyone!"
   }'
 ```

@@ -4,7 +4,7 @@
 # Copy this file to config.sh and add your API key
 
 # Your API Key from instantKOM Dashboard
-export API_KEY="YOUR_API_KEY_HERE"
+export API_KEY=YOUR_API_KEY_HERE
 
 # API Base URL
 export BASE_URL="https://api.instantkom.app"

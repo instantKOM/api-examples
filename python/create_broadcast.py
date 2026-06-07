@@ -1,8 +1,11 @@
 """
 instantKOM API Example: Create and Send Broadcast
 
-This example demonstrates how to create a broadcast campaign
-and send it to multiple recipients.
+Creates a broadcast campaign for all contacts in a channel (or a segment)
+and sends it immediately.
+
+Broadcasts target contacts already stored in instantKOM, not raw phone numbers.
+Use segment_id to restrict the audience to a specific contact segment.
 """
 
 import os
@@ -18,42 +21,37 @@ BASE_URL = os.getenv('BASE_URL', 'https://api.instantkom.app')
 
 def create_and_send_broadcast():
     """Create and send a broadcast campaign."""
-    url = f'{BASE_URL}/v1/broadcasts'
-
     headers = {
         'Authorization': f'Bearer {API_KEY}',
         'Content-Type': 'application/json',
     }
 
+    # Step 1: Create broadcast
     data = {
-        'channelId': 123,  # Your channel ID
-        'name': 'Summer Sale 2025',
+        'channelId': 505,  # Your channel ID
         'message': 'Check out our amazing summer sale! 50% off on selected items.',
-        'recipients': [
-            '+49151234567890',
-            '+49152345678901',
-            '+49153456789012',
-        ],
-        # Optional: Schedule for later
-        # 'scheduledAt': '2025-12-01T10:00:00Z',
+        # Optional: restrict to a contact segment
+        # 'segmentId': 123,
+        # Optional: schedule for future send (Unix timestamp in seconds)
+        # 'scheduledAt': 1735000000,
     }
 
     try:
-        # Step 1: Create broadcast
-        response = requests.post(url, json=data, headers=headers)
+        response = requests.post(f'{BASE_URL}/v1/broadcasts', json=data, headers=headers)
         response.raise_for_status()
 
         result = response.json()
-        broadcast_id = result['data']['id']
+        broadcast_id = result['id']
 
         print('Broadcast created successfully!')
         print(f'Broadcast ID: {broadcast_id}')
-        print(f'Status: {result["data"]["status"]}')
-        print(f'Recipients: {len(data["recipients"])}')
+        print(f'Send status: {result.get("sendStatus")}')
 
         # Step 2: Send broadcast
-        send_url = f'{BASE_URL}/v1/broadcasts/{broadcast_id}/send'
-        send_response = requests.post(send_url, headers=headers)
+        send_response = requests.post(
+            f'{BASE_URL}/v1/broadcasts/{broadcast_id}/send',
+            headers=headers,
+        )
         send_response.raise_for_status()
 
         print('\nBroadcast sent successfully!')

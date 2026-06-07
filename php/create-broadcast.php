@@ -2,34 +2,29 @@
 /**
  * instantKOM API Example: Create and Send Broadcast
  *
- * This example demonstrates how to create a broadcast campaign
- * and send it to multiple recipients.
+ * Creates a broadcast campaign for all contacts in a channel (or a segment)
+ * and sends it immediately.
+ *
+ * Broadcasts target contacts already stored in instantKOM, not raw phone numbers.
+ * Use segmentId to restrict the audience to a specific contact segment.
  */
 
 require_once 'config.php';
 $config = require 'config.php';
 
-// API endpoint
+// Step 1: Create broadcast
 $url = $config['base_url'] . '/v1/broadcasts';
 
-// Broadcast data
 $data = [
-    'channelId' => 123, // Your channel ID
-    'name' => 'Summer Sale 2025',
-    'message' => 'Check out our amazing summer sale! 50% off on selected items.',
-    'recipients' => [
-        '+49151234567890',
-        '+49152345678901',
-        '+49153456789012',
-    ],
-    // Optional: Schedule for later
-    // 'scheduledAt' => '2025-12-01T10:00:00Z',
+    'channelId' => 505, // Your channel ID
+    'message'   => 'Check out our amazing summer sale! 50% off on selected items.',
+    // Optional: restrict to a contact segment
+    // 'segmentId' => 123,
+    // Optional: schedule for future send (Unix timestamp in seconds)
+    // 'scheduledAt' => 1735000000,
 ];
 
-// Initialize cURL
 $ch = curl_init($url);
-
-// Set cURL options
 curl_setopt_array($ch, [
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_POST => true,
@@ -40,43 +35,42 @@ curl_setopt_array($ch, [
     ],
 ]);
 
-// Execute request
 $response = curl_exec($ch);
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 curl_close($ch);
 
-// Handle response
-if ($httpCode === 200 || $httpCode === 201) {
-    $result = json_decode($response, true);
-    echo "Broadcast created successfully!\n";
-    echo "Broadcast ID: " . $result['data']['id'] . "\n";
-    echo "Status: " . $result['data']['status'] . "\n";
-    echo "Recipients: " . count($data['recipients']) . "\n";
-
-    // Now send the broadcast
-    $broadcastId = $result['data']['id'];
-    $sendUrl = $config['base_url'] . "/v1/broadcasts/$broadcastId/send";
-
-    $ch = curl_init($sendUrl);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_HTTPHEADER => [
-            'Authorization: Bearer ' . $config['api_key'],
-        ],
-    ]);
-
-    $sendResponse = curl_exec($ch);
-    $sendHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-
-    if ($sendHttpCode === 200) {
-        echo "\nBroadcast sent successfully!\n";
-    } else {
-        echo "\nError sending broadcast (HTTP $sendHttpCode)\n";
-        echo $sendResponse . "\n";
-    }
-} else {
+if ($httpCode !== 200 && $httpCode !== 201) {
     echo "Error creating broadcast (HTTP $httpCode)\n";
     echo $response . "\n";
+    exit(1);
+}
+
+$result = json_decode($response, true);
+$broadcastId = $result['id'];
+
+echo "Broadcast created successfully!\n";
+echo "Broadcast ID: $broadcastId\n";
+echo "Send status: " . $result['sendStatus'] . "\n";
+
+// Step 2: Send broadcast
+$sendUrl = $config['base_url'] . "/v1/broadcasts/$broadcastId/send";
+
+$ch = curl_init($sendUrl);
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_HTTPHEADER => [
+        'Authorization: Bearer ' . $config['api_key'],
+    ],
+]);
+
+$sendResponse = curl_exec($ch);
+$sendHttpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+curl_close($ch);
+
+if ($sendHttpCode === 200 || $sendHttpCode === 201) {
+    echo "\nBroadcast sent successfully!\n";
+} else {
+    echo "\nError sending broadcast (HTTP $sendHttpCode)\n";
+    echo $sendResponse . "\n";
 }

@@ -40,14 +40,14 @@ def list_channels(page=1, limit=10):
         for channel in result['data']:
             print(f'ID: {channel["id"]}')
             print(f'Name: {channel["name"]}')
-            print(f'Type: {channel["type"]}')
-            print(f'Status: {"Active" if channel["status"] else "Inactive"}')
+            print(f'Gateway: {channel["gatewayType"]}')
+            print(f'Status: {channel["status"]}')
             print('-' * 50)
 
         # Pagination info
-        if 'meta' in result:
-            print(f'\nTotal: {result["meta"]["total"]}')
-            print(f'Pages: {result["meta"]["totalPages"]}')
+        if 'pagination' in result:
+            print(f'\nTotal: {result["pagination"]["total"]}')
+            print(f'Pages: {result["pagination"]["totalPages"]}')
 
     except requests.exceptions.HTTPError as e:
         print(f'Error retrieving channels: {e.response.status_code}')

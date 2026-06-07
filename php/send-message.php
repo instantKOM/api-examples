@@ -2,8 +2,9 @@
 /**
  * instantKOM API Example: Send Message
  *
- * This example demonstrates how to send a 1:1 message
- * to a contact via WhatsApp, Telegram, or any other channel.
+ * Sends a 1:1 text message to a recipient by their internal ID.
+ * To find the recipient ID, use the contacts endpoint:
+ *   GET /v1/contacts?search=<phone_or_name>
  */
 
 require_once 'config.php';
@@ -14,9 +15,9 @@ $url = $config['base_url'] . '/v1/messages';
 
 // Message data
 $data = [
-    'channelId' => 123, // Your channel ID
-    'to' => '+49151234567890', // Recipient phone number
-    'message' => 'Hello from instantKOM API!',
+    'recipientId' => 12345, // Internal instantKOM contact ID (not a phone number)
+    'message'     => 'Hello from instantKOM API!',
+    'messageType' => 'text',
 ];
 
 // Initialize cURL
@@ -42,7 +43,7 @@ curl_close($ch);
 if ($httpCode === 200 || $httpCode === 201) {
     $result = json_decode($response, true);
     echo "Message sent successfully!\n";
-    echo "Message ID: " . $result['data']['id'] . "\n";
+    echo "Message ID: " . $result['id'] . "\n";
     print_r($result);
 } else {
     echo "Error sending message (HTTP $httpCode)\n";

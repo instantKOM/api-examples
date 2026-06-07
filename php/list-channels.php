@@ -39,15 +39,15 @@ if ($httpCode === 200) {
     foreach ($result['data'] as $channel) {
         echo "ID: {$channel['id']}\n";
         echo "Name: {$channel['name']}\n";
-        echo "Type: {$channel['type']}\n";
-        echo "Status: " . ($channel['status'] ? 'Active' : 'Inactive') . "\n";
+        echo "Gateway: {$channel['gatewayType']}\n";
+        echo "Status: " . $channel['status'] . "\n";
         echo str_repeat('-', 50) . "\n";
     }
 
     // Pagination info
-    if (isset($result['meta'])) {
-        echo "\nTotal: {$result['meta']['total']}\n";
-        echo "Pages: {$result['meta']['totalPages']}\n";
+    if (isset($result['pagination'])) {
+        echo "\nTotal: {$result['pagination']['total']}\n";
+        echo "Pages: {$result['pagination']['totalPages']}\n";
     }
 } else {
     echo "Error retrieving channels (HTTP $httpCode)\n";

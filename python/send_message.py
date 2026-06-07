@@ -1,8 +1,9 @@
 """
 instantKOM API Example: Send Message
 
-This example demonstrates how to send a 1:1 message
-to a contact via WhatsApp, Telegram, or any other channel.
+Sends a 1:1 text message to a recipient by their internal ID.
+To find the recipient ID, use the contacts endpoint:
+  GET /v1/contacts?search=<phone_or_name>
 """
 
 import os
@@ -17,7 +18,7 @@ BASE_URL = os.getenv('BASE_URL', 'https://api.instantkom.app')
 
 
 def send_message():
-    """Send a message via the instantKOM API."""
+    """Send a text message via the instantKOM API."""
     url = f'{BASE_URL}/v1/messages'
 
     headers = {
@@ -26,9 +27,9 @@ def send_message():
     }
 
     data = {
-        'channelId': 123,  # Your channel ID
-        'to': '+49151234567890',  # Recipient phone number
+        'recipientId': 12345,  # Internal instantKOM contact ID (not a phone number)
         'message': 'Hello from instantKOM API!',
+        'messageType': 'text',
     }
 
     try:
@@ -37,7 +38,7 @@ def send_message():
 
         result = response.json()
         print('Message sent successfully!')
-        print(f'Message ID: {result["data"]["id"]}')
+        print(f'Message ID: {result["id"]}')
         print(result)
     except requests.exceptions.HTTPError as e:
         print(f'Error sending message: {e.response.status_code}')

@@ -29,13 +29,9 @@ return [
 
 | File | Description |
 |------|-------------|
-| `send-message.php` | Send a 1:1 message |
+| `send-message.php` | Send a 1:1 message (requires `recipientId`) |
 | `list-channels.php` | List all channels |
 | `create-broadcast.php` | Create and send a broadcast |
-| `list-contacts.php` | List contacts with pagination |
-| `create-tag.php` | Create and assign tags |
-| `upload-media.php` | Send images/videos/documents |
-| `webhook-handler.php` | Handle incoming webhooks |
 
 ## Quick Start
 
@@ -48,13 +44,3 @@ cp config.example.php config.php
 # Run an example
 php send-message.php
 ```
-
-## Using with Composer
-
-For production applications, use Guzzle or similar HTTP client:
-
-```bash
-composer require guzzlehttp/guzzle
-```
-
-See `send-message-guzzle.php` for an example using Guzzle.

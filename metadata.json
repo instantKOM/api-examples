@@ -1,0 +1,52 @@
+{
+  "examples": [
+    {
+      "file": "curl/send-message.sh",
+      "title": "Send message (cURL)"
+    },
+    {
+      "file": "curl/list-channels.sh",
+      "title": "List channels (cURL)"
+    },
+    {
+      "file": "curl/health-check.sh",
+      "title": "Health check (cURL)"
+    },
+    {
+      "file": "javascript/send-message.js",
+      "title": "Send message (JavaScript)"
+    },
+    {
+      "file": "javascript/list-channels.js",
+      "title": "List channels (JavaScript)"
+    },
+    {
+      "file": "javascript/create-broadcast.js",
+      "title": "Create broadcast (JavaScript)"
+    },
+    {
+      "file": "php/send-message.php",
+      "title": "Send message (PHP)"
+    },
+    {
+      "file": "php/list-channels.php",
+      "title": "List channels (PHP)"
+    },
+    {
+      "file": "php/create-broadcast.php",
+      "title": "Create broadcast (PHP)"
+    },
+    {
+      "file": "python/send_message.py",
+      "title": "Send message (Python)"
+    },
+    {
+      "file": "python/list_channels.py",
+      "title": "List channels (Python)"
+    },
+    {
+      "file": "python/create_broadcast.py",
+      "title": "Create broadcast (Python)"
+    }
+  ]
+}
