@@ -4,6 +4,8 @@
 # Usage: ./send-message.sh
 #
 # Sends a 1:1 text message to a recipient by their internal ID.
+# For image, video, audio, or document messages, send multipart form data with
+# the required media field (images, videos, audio, and PDFs up to 25 MB).
 # To find the recipient ID, use the contacts endpoint:
 #   GET /v1/contacts?search=<phone_or_name>
 
